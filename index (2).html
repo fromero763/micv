@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CV — Felipe de Jesús Romero Acevedo</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:      #0f0f0f;
+    --surface: #1a1a1a;
+    --border:  #2a2a2a;
+    --accent:  #f5a623;
+    --text:    #e8e4dc;
+    --muted:   #7a7570;
+    --white:   #ffffff;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 0 24px 80px; position: relative; z-index: 1; }
+
+  /* HEADER */
+  header {
+    padding: 70px 0 50px;
+    border-bottom: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 24px;
+    position: relative;
+  }
+  .deco-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 160px;
+    color: var(--border);
+    line-height: 1;
+    user-select: none;
+    position: absolute;
+    right: 0; top: 0;
+    letter-spacing: .04em;
+    pointer-events: none;
+  }
+  .tag-line {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .18em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .tag-line::before {
+    content: '';
+    display: block;
+    width: 28px; height: 1px;
+    background: var(--accent);
+  }
+  h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(52px, 8vw, 88px);
+    line-height: .92;
+    letter-spacing: .02em;
+    color: var(--white);
+    position: relative;
+    z-index: 1;
+  }
+  h1 span { color: var(--accent); }
+  .header-meta {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-end;
+    position: relative;
+    z-index: 1;
+  }
+  .meta-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 6px 14px;
+    font-size: 12px;
+    font-family: 'DM Mono', monospace;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .meta-pill b { color: var(--text); font-weight: 500; }
+
+  /* SECCIONES */
+  .section { padding: 52px 0 0; }
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 32px;
+  }
+  .section-label span {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    white-space: nowrap;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1; height: 1px;
+    background: var(--border);
+  }
+
+  /* DATOS PERSONALES */
+  .info-row { display: flex; flex-wrap: wrap; gap: 12px; }
+  .info-chip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 16px;
+    font-size: 13px;
+    transition: border-color .3s;
+  }
+  .info-chip:hover { border-color: var(--accent); }
+  .info-chip .lbl {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-right: 2px;
+  }
+
+  /* EXPERIENCIA */
+  .job-list { display: flex; flex-direction: column; }
+  .job {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: start;
+    gap: 16px;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--border);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity .6s ease, transform .6s ease;
+  }
+  .job.visible { opacity: 1; transform: translateY(0); }
+  .job-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 30px;
+    letter-spacing: .04em;
+    color: var(--white);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .job-desc { font-size: 13px; color: var(--muted); line-height: 1.7; }
+  .job-badge {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 5px 12px;
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    color: var(--accent);
+    white-space: nowrap;
+    margin-top: 4px;
+  }
+
+  /* HABILIDADES */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
+    gap: 12px;
+  }
+  .skill-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity .5s ease, transform .5s ease, border-color .3s;
+    cursor: default;
+  }
+  .skill-card.visible { opacity: 1; transform: translateY(0); }
+  .skill-card:hover { border-color: var(--accent); }
+  .skill-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: var(--accent);
+    opacity: 0;
+    transition: opacity .3s;
+  }
+  .skill-card:hover::before { opacity: 1; }
+  .skill-icon { font-size: 24px; margin-bottom: 12px; display: block; }
+  .skill-name { font-size: 13px; font-weight: 500; color: var(--text); line-height: 1.4; }
+
+  /* EDUCACIÓN */
+  .edu-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 28px 32px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 16px;
+    align-items: start;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity .6s ease, transform .6s ease;
+    margin-bottom: 14px;
+  }
+  .edu-block.visible { opacity: 1; transform: translateY(0); }
+  .edu-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    color: var(--white);
+    letter-spacing: .04em;
+    margin-bottom: 6px;
+  }
+  .edu-sub { font-size: 13px; color: var(--muted); }
+  .edu-badge {
+    background: var(--accent);
+    color: #000;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    border-radius: 4px;
+    padding: 5px 12px;
+    white-space: nowrap;
+  }
+
+  /* FOOTER */
+  footer {
+    margin-top: 72px;
+    padding-top: 28px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  footer p {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: .08em;
+  }
+  .fa { color: var(--accent); }
+
+  /* RESPONSIVE */
+  @media (max-width: 600px) {
+    header { grid-template-columns: 1fr; }
+    .header-meta { text-align: left; align-items: flex-start; }
+    .job { grid-template-columns: 1fr; }
+    .edu-block { grid-template-columns: 1fr; }
+    .deco-num { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HEADER -->
+  <header>
+    <div class="deco-num" aria-hidden="true">99</div>
+    <div>
+      <div class="tag-line">Currículo Vitae — 2025</div>
+      <h1>Felipe<br><span>de Jesús</span><br>Romero</h1>
+    </div>
+    <div class="header-meta">
+      <div class="meta-pill">Nacimiento <b>16 / 07 / 1999</b></div>
+      <div class="meta-pill">Estatura <b>1.78 m</b></div>
+      <div class="meta-pill">Egresado <b>UABCS</b></div>
+    </div>
+  </header>
+
+  <!-- DATOS PERSONALES -->
+  <section class="section">
+    <div class="section-label"><span>Datos personales</span></div>
+    <div class="info-row">
+      <div class="info-chip"><span class="lbl">Nombre</span>Felipe de Jesús Romero Acevedo</div>
+      <div class="info-chip"><span class="lbl">Fecha nac.</span>16 de julio de 1999</div>
+      <div class="info-chip"><span class="lbl">Estatura</span>1.78 m</div>
+      <div class="info-chip"><span class="lbl">Universidad</span>UABCS</div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCIA -->
+  <section class="section">
+    <div class="section-label"><span>Experiencia laboral</span></div>
+    <div class="job-list">
+
+      <div class="job">
+        <div>
+          <div class="job-title">Ayudante de Almacén</div>
+          <div class="job-desc">Recepción, clasificación y control de materiales e inventarios. Manejo y organización de bodega, apoyo en logística de entradas y salidas de mercancía.</div>
+        </div>
+        <div class="job-badge">Almacén</div>
+      </div>
+
+      <div class="job">
+        <div>
+          <div class="job-title">Ayudante de Mantenimiento</div>
+          <div class="job-desc">Apoyo en mantenimiento preventivo y correctivo de instalaciones y equipos. Aplicación de conocimientos en electricidad, soldadura y herramienta especializada.</div>
+        </div>
+        <div class="job-badge">Mantenimiento</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- HABILIDADES -->
+  <section class="section">
+    <div class="section-label"><span>Habilidades técnicas</span></div>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <span class="skill-icon">⚡</span>
+        <div class="skill-name">Electricidad industrial y doméstica</div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon">🔥</span>
+        <div class="skill-name">Soldadura (MIG / TIG / electrodo)</div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon">🔧</span>
+        <div class="skill-name">Herramienta de corte y medición</div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon">📐</span>
+        <div class="skill-name">Herramienta digital de medición</div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon">🛠️</span>
+        <div class="skill-name">Mantenimiento preventivo y correctivo</div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon">📦</span>
+        <div class="skill-name">Control de almacén e inventarios</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCACIÓN -->
+  <section class="section">
+    <div class="section-label"><span>Formación académica</span></div>
+
+    <div class="edu-block">
+      <div>
+        <div class="edu-title">Técnico en Mantenimiento</div>
+        <div class="edu-sub">Especialidad en Electricidad y Soldadura · Título técnico obtenido</div>
+      </div>
+      <div class="edu-badge">TÍTULO TÉCNICO</div>
+    </div>
+
+    <div class="edu-block">
+      <div>
+        <div class="edu-title">Universidad Autónoma de Baja California Sur</div>
+        <div class="edu-sub">UABCS · Estudios universitarios</div>
+      </div>
+      <div class="edu-badge">UABCS</div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>Felipe de Jesús Romero Acevedo &nbsp;·&nbsp; <span class="fa">CV 2025</span></p>
+    <p>Disponible para nuevas oportunidades</p>
+  </footer>
+
+</div>
+<script>
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) setTimeout(() => e.target.classList.add('visible'), i * 90);
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.job, .skill-card, .edu-block').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
